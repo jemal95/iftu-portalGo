@@ -1,180 +1,106 @@
+import React from 'react';
+import { Users, CheckSquare, Zap, Shield } from 'lucide-react';
+import { Course, Grade, EducationLevel, Exam, Stream } from './types';
 
-import { Course, Grade, EducationLevel, Exam } from './types';
+const getThumb = (subject: string, id: number) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&q=80&w=400&sig=${subject}`;
 
-// Helper to generate a placeholder thumbnail based on subject
-const getThumb = (subject: string) => `https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=400&sig=${subject}`;
+const CURRENT_YEAR = new Date().getFullYear();
+
+export const NATIONAL_CENTER_INFO = {
+  name: "IFTU National Digital Sovereign Education Center",
+  shortName: "IFTU NDC",
+  location: "Menelik II Square, Addis Ababa, Ethiopia",
+  coordinates: { lat: 9.0336, lng: 38.7615 },
+  mapsLink: "https://goo.gl/maps/KcLgTHsz6WKtSeda7/",
+  authorizedBy: "Jemal Fano Haji"
+};
 
 export const MOCK_COURSES: Course[] = [
-  // --- GRADE 9-10 (13 SUBJECTS) ---
-  {
-    id: 'g9-math',
-    title: 'Mathematics Grade 9',
-    code: 'MATH9',
-    grade: Grade.G9,
-    level: EducationLevel.SECONDARY,
-    thumbnail: 'https://images.unsplash.com/photo-1509228468518-180dd48219d1?auto=format&fit=crop&q=80&w=400',
-    description: 'Fundamental algebra, geometry, and number systems for secondary education.',
-    instructor: 'Abebe Bikila',
-    subject: 'Mathematics',
+  { 
+    id: 'g11-phys-core', 
+    title: 'Grade 11 Core Physics', 
+    code: 'PHYS-G11-C', 
+    grade: Grade.G11, 
+    stream: Stream.NATURAL_SCIENCE, 
+    level: EducationLevel.SECONDARY, 
+    thumbnail: getThumb('physics', 1532094349884), 
+    description: 'Foundational mechanics and thermodynamics required for advanced studies.', 
+    instructor: 'Dr. Tesfaye', 
+    instructorEmail: 'dr.tesfaye@iftu.edu.et', 
+    subject: 'Physics', 
     lessons: [
-      { id: 'm9-l1', title: 'The Real Number System', duration: '20m', content: 'Understanding rational and irrational numbers.', type: 'reading' },
-      { id: 'm9-l2', title: 'Linear Equations', duration: '35m', content: 'Solving equations with one variable.', type: 'video' }
+      { id: 'p11-l1', title: 'Kinematics', duration: '20m', content: 'Linear motion basics.', type: 'video', contentType: 'video', videoUrl: 'https://www.youtube.com/watch?v=5UfG_5iK_N8' }
     ]
   },
-  {
-    id: 'g10-bio',
-    title: 'Biology Grade 10',
-    code: 'BIO10',
-    grade: Grade.G10,
-    level: EducationLevel.SECONDARY,
-    thumbnail: 'https://images.unsplash.com/photo-1530210124550-912dc1381cb8?auto=format&fit=crop&q=80&w=400',
-    description: 'Study of life, human anatomy, and environmental biology.',
-    instructor: 'Dr. Selamawit Tadesse',
-    subject: 'Biology',
+  { 
+    id: 'g12-phys-adv', 
+    title: 'Grade 12 Advanced Physics', 
+    code: 'PHYS-G12-A', 
+    grade: Grade.G12, 
+    stream: Stream.NATURAL_SCIENCE, 
+    level: EducationLevel.SECONDARY, 
+    thumbnail: getThumb('quantum', 1451810166861), 
+    description: 'Quantum mechanics and electromagnetism. Requires Core Physics mastery.', 
+    instructor: 'Dr. Tesfaye', 
+    instructorEmail: 'dr.tesfaye@iftu.edu.et', 
+    subject: 'Physics', 
+    prerequisites: ['g11-phys-core'],
     lessons: [
-      { id: 'b10-l1', title: 'Cell Biology', duration: '40m', content: 'Structure and function of animal and plant cells.', type: 'video' }
+      { id: 'p12-l1', title: 'Quantum Duality', duration: '45m', content: 'Advanced wave-particle duality.', type: 'reading', contentType: 'reading', pdfUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' }
     ]
   },
-  ...['Afan Oromo', 'Amharic', 'English', 'Physics', 'Chemistry', 'History', 'Geography', 'Citizenship', 'Economics', 'IT', 'HPE'].map((sub, i) => ({
-    id: `g9-${sub.toLowerCase().replace(' ', '-')}`,
-    title: `${sub} Grade 9`,
-    code: `${sub.substring(0, 3).toUpperCase()}9`,
-    grade: Grade.G9,
-    level: EducationLevel.SECONDARY,
-    thumbnail: getThumb(sub),
-    description: `Official Ethiopian Curriculum for ${sub} Grade 9.`,
-    instructor: 'Dept. Faculty',
-    subject: sub,
-    lessons: []
-  })),
-
-  // --- GRADE 11-12 SOCIAL SCIENCE ---
-  {
-    id: 'g12-hist-soc',
-    title: 'History Grade 12 (Social Science)',
-    code: 'HIST12-S',
-    grade: Grade.G12,
-    level: EducationLevel.SECONDARY,
-    thumbnail: 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&q=80&w=400',
-    description: 'Comprehensive study of Ethiopian and World History.',
-    instructor: 'Mulugeta Tesfaye',
-    subject: 'History',
+  { 
+    id: 'tvet-auto-l3', 
+    title: 'Automotive Systems L3', 
+    code: 'AUTO-L3', 
+    grade: Grade.TVET_LEVEL_3, 
+    stream: Stream.GENERAL, 
+    level: EducationLevel.TVET, 
+    thumbnail: getThumb('car', 1511919884224), 
+    description: 'Advanced engine diagnostics and hybrid systems. Includes Live Oral Assessment.', 
+    instructor: 'Kebede J.', 
+    instructorEmail: 'kebede.j@iftu.edu.et', 
+    subject: 'Automotive', 
     lessons: [
-      { id: 'h12-l1', title: 'The Axumite Civilization', duration: '45m', content: 'Rise and fall of the northern empire.', type: 'video' }
-    ]
-  },
-  ...['English', 'Afan Oromo', 'Maths', 'Geography', 'Economics', 'Accounting', 'IT'].map((sub, i) => ({
-    id: `g11-soc-${sub.toLowerCase()}`,
-    title: `${sub} Grade 11 (Social)`,
-    code: `${sub.substring(0, 3).toUpperCase()}11S`,
-    grade: Grade.G11,
-    level: EducationLevel.SECONDARY,
-    thumbnail: getThumb(sub + 'social'),
-    description: `Social Science track module for ${sub}.`,
-    instructor: 'Social Science Dept',
-    subject: sub,
-    lessons: []
-  })),
-
-  // --- GRADE 11-12 NATURAL SCIENCE ---
-  {
-    id: 'g12-phys-nat',
-    title: 'Physics Grade 12 (Natural Science)',
-    code: 'PHYS12-N',
-    grade: Grade.G12,
-    level: EducationLevel.SECONDARY,
-    thumbnail: 'https://images.unsplash.com/photo-1636466497217-26a8cbeaf0aa?auto=format&fit=crop&q=80&w=400',
-    description: 'Advanced mechanics, electromagnetism, and modern physics.',
-    instructor: 'Kassa Hunegnaw',
-    subject: 'Physics',
-    lessons: [
-      { id: 'p12-l1', title: 'Quantum Mechanics Intro', duration: '50m', content: 'The nature of particles and waves.', type: 'video' }
-    ]
-  },
-  ...['English', 'Afan Oromo', 'Maths', 'Chemistry', 'Biology', 'IT', 'Agriculture', 'Drawing'].map((sub, i) => ({
-    id: `g11-nat-${sub.toLowerCase()}`,
-    title: `${sub} Grade 11 (Natural)`,
-    code: `${sub.substring(0, 3).toUpperCase()}11N`,
-    grade: Grade.G11,
-    level: EducationLevel.SECONDARY,
-    thumbnail: getThumb(sub + 'natural'),
-    description: `Natural Science track module for ${sub}.`,
-    instructor: 'Natural Science Dept',
-    subject: sub,
-    lessons: []
-  })),
-
-  // --- TVET COLLEGE (LEVEL 1-4) ---
-  {
-    id: 'tvet-it-l1',
-    title: 'Information Technology Level 1',
-    code: 'TVET-IT-L1',
-    grade: Grade.TVET_LEVEL_1,
-    level: EducationLevel.TVET,
-    thumbnail: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=400',
-    description: 'Foundational computer skills and software maintenance.',
-    instructor: 'Yonas Getachew',
-    subject: 'Information Technology',
-    lessons: [
-      { id: 't-it-l1', title: 'Hardware Basics', duration: '30m', content: 'Identifying computer components.', type: 'reading' }
-    ]
-  },
-  ...['Human Resource Management', 'Economics', 'Design and Drawing', 'General English', 'General Mathematics'].map((sub, i) => ({
-    id: `tvet-${sub.toLowerCase().replace(' ', '-')}-l3`,
-    title: `${sub} Level 3`,
-    code: `TVET-${sub.substring(0, 3).toUpperCase()}-L3`,
-    grade: Grade.TVET_LEVEL_3,
-    level: EducationLevel.TVET,
-    thumbnail: getThumb(sub + 'tvet'),
-    description: `Vocational competency module for ${sub}.`,
-    instructor: 'Vocational Trainer',
-    subject: sub,
-    lessons: []
-  }))
+      { id: 'auto-l3-oral', title: 'Technical Interview: Hybrid Safety', duration: '15m', content: 'You will participate in a live oral examination with an AI Auditor regarding High-Voltage safety protocols.', type: 'quiz', contentType: 'quiz' }
+    ] 
+  }
 ];
 
 export const MOCK_EXAMS: Exam[] = [
   {
-    id: 'math-s1-mid',
-    title: 'G12 Mathematics Mid-Term (Sem 1)',
-    courseCode: 'MATH12-N',
-    grade: Grade.G12,
+    id: 'exam-math-g9',
+    title: 'Grade 9 Mathematics Mock',
+    courseCode: 'MATH-G9',
+    grade: Grade.G9,
+    stream: Stream.GENERAL,
+    academicYear: CURRENT_YEAR,
     durationMinutes: 60,
-    totalPoints: 40,
+    totalPoints: 20,
     status: 'published',
-    type: 'mid',
+    type: 'mock-eaes',
     semester: 1,
     subject: 'Mathematics',
-    questions: [{ id: 'q1', text: 'Which of the following is a prime number?', options: ['4', '6', '7', '9'], correctAnswer: 2, points: 5 }]
+    categories: ['Algebra', 'Geometry'],
+    questions: [
+      { id: 'q9m1', text: 'Solve for x: 3x - 12 = 0.', type: 'multiple-choice', options: ['2', '3', '4', '6'], correctAnswer: 2, points: 10, category: 'Algebra' },
+      { id: 'q9m2', text: 'Which is a prime number?', type: 'multiple-choice', options: ['4', '9', '13', '15'], correctAnswer: 2, points: 10, category: 'Algebra' }
+    ]
   }
 ];
 
 export const MOCK_NEWS = [
-  {
-    id: 'n1',
-    date: 'Oct 24, 2024',
-    tag: 'National',
-    title: '2024 Grade 12 National Exam Schedule Released',
-    summary: 'The Ministry of Education has officially announced the registration dates and examination window for the upcoming academic year. Students are advised to verify their NID records.',
-    image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=400',
-    content: 'Registration will take place from November 1st to November 30th. Exams are scheduled for the last week of May 2025. Ensure your biometric data is updated in the IFTU system.'
-  },
-  {
-    id: 'n2',
-    date: 'Oct 22, 2024',
-    tag: 'TVET',
-    title: 'New Level 4 Competency Standards for ICT',
-    summary: 'Updated COC standards for Information Technology Level 4 have been published. Training providers must align their modules by January.',
-    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=400',
-    content: 'The new standards include advanced cybersecurity modules and cloud infrastructure management. Trainers can download the new assessment tools from the portal.'
-  },
-  {
-    id: 'n3',
-    date: 'Oct 20, 2024',
-    tag: 'Infrastructure',
-    title: '500+ Secondary Schools Connected to IFTU Hub',
-    summary: 'The Digital Literacy initiative has successfully connected over 500 schools across Oromia and Amhara regions to the central LMS.',
-    image: 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&q=80&w=400',
-    content: 'This connection allows offline access to IFTU resources through local servers, ensuring students in areas with low connectivity can still learn effectively.'
-  }
+  { id: 'n1', date: `Feb 22, ${CURRENT_YEAR}`, tag: 'Infrastructure', title: 'IFTU National Server Cluster Upgraded', summary: 'Improved latency for remote proctoring.', image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc51?auto=format&fit=crop&q=80&w=600', content: 'The upgrade ensures stable connections for students in all regions.' }
+];
+
+export const SUMMER_STATS = [
+  { label: 'ACTIVE LEARNERS', value: '450K+', color: '#3b82f6', icon: <Users size={48} /> },
+  { label: 'MODULES COMPLETED', value: '1.2M', color: '#009b44', icon: <CheckSquare size={48} /> },
+  { label: 'SYSTEM UPTIME', value: '99.9%', color: '#ffcd00', icon: <Zap size={48} /> },
+  { label: 'EXAM INTEGRITY', value: '100%', color: '#ef3340', icon: <Shield size={48} /> }
+];
+
+export const SUMMER_ACTIVITIES = [
+  { title: 'STEM Innovation Fair', date: 'August 15', desc: 'National exhibition of student projects.', image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=600', tag: 'Innovation' },
+  { title: 'Digital Bootcamps', date: 'July - Aug', desc: 'Coding and engineering for TVET.', image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=600', tag: 'Skills' }
 ];
