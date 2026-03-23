@@ -1,0 +1,8 @@
+{
+  "name": "IFTU LMS - Ethiopian Education Portal",
+  "description": "A comprehensive Learning Management System designed for Ethiopian Grade 9-12 students and TVET colleges, featuring AI tutoring, curriculum-aligned courses, and exam preparation tools.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
